@@ -43,7 +43,7 @@ a { text-decoration: none; color: inherit; }
 
 /* ── HEADER ── */
 .site-header {
-    background: #e0af66;
+    background: #5755ce;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -118,7 +118,7 @@ a { text-decoration: none; color: inherit; }
 
 /* ── FOOTER ── */
 .site-footer {
-    background: #2a1f0e;
+    background: #384b8b;
     color: rgba(255,255,255,.75);
     margin-top: auto;
 }
@@ -488,3 +488,10 @@ a { text-decoration: none; color: inherit; }
     font-weight: 600;
 }
 .detail-notice a:hover { text-decoration: underline; }
+
+.brand-logo {
+    width: 70px;
+    height: 50px;
+    object-fit: contain;
+    border-radius: 6px;
+}
