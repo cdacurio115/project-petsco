@@ -1,21 +1,21 @@
 # Petscop 🐾
 
-Petscop es una aplicación web para una fundación de adopción de mascotas. Permite a los usuarios explorar publicaciones de mascotas disponibles para adopción, registrarse, iniciar sesión, crear publicaciones y marcar mascotas para adopción.
+Petscop is a web application for a pet adoption foundation. It allows users to explore posts of pets available for adoption, register, log in, create posts, and mark pets for adoption.
 
-## Funcionalidades
+## Features
 
-- Registro e inicio de sesión de usuarios
-- Crear, editar y eliminar publicaciones de mascotas
-- Subir imágenes a las publicaciones
-- Ver publicaciones de forma individual
-- Buscar mascotas por título o contenido
-- Paginación de publicaciones
-- Sistema de check para marcar mascotas en proceso de adopción
-- Apartado de adopciones en proceso (solo usuarios registrados)
+- User registration and login
+- Create, edit, and delete pet posts
+- Upload images to posts
+- View individual posts
+- Search pets by title or content
+- Post pagination
+- Check system to mark pets in the adoption process
+- Adoptions in progress section (registered users only)
 - Health check endpoint (`GET /health`)
-- UI responsiva para móvil y escritorio
+- Responsive UI for mobile and desktop
 
-## Tecnologías usadas
+## Technologies Used
 
 - Python 3.11
 - Flask
@@ -25,60 +25,54 @@ Petscop es una aplicación web para una fundación de adopción de mascotas. Per
 - Werkzeug
 - python-dotenv
 
-## Requisitos previos
+## Prerequisites
 
 - Python 3.11
-- MySQL Server 8.0 (y opcionalmente MySQL Workbench para visualizar la base de datos)
+- MySQL Server 8.0 (and optionally MySQL Workbench to visualize the database)
 
-## Configuración local
+## Local Setup
 
-1. Clona el repositorio:
+1. Clone the repository:
 git clone https://github.com/cdacurio115/project-petsco.git
 cd project-petsco
 
-2. Crea y activa el entorno virtual:
+2. Create and activate the virtual environment:
 python -m venv .venv
 .venv\Scripts\activate
 
-3. Instala las dependencias:
+3. Install dependencies:
 pip install -r requirements.txt
 
-4. Crea la base de datos. Desde MySQL Workbench o la consola de MySQL ejecuta:
+4. Create the database. From MySQL Workbench or the MySQL console run:
 ```sql
 CREATE DATABASE blog_db;
 ```
 
-5. Crea un archivo `.env` en la raíz del proyecto con las siguientes variables:
-
+5. Create a `.env` file in the root of the project with the following variables:
 DATABASE_URL=mysql+pymysql://root:root@localhost:3306/blog_db
 SECRET_KEY=dev
 
-6. Las credenciales por defecto de MySQL son:
-- Usuario: `root`
-- Contraseña: `root`
-- Puerto: `3306`
+6. Default MySQL credentials:
+- User: `root`
+- Password: `root`
+- Port: `3306`
 
-7. Corre la aplicación:
+7. Run the application:
 py main.py
 
-La app estará disponible en http://127.0.0.1:5000
+The app will be available at http://127.0.0.1:5000
 
-## Credenciales de demo
+## Demo Credentials
 
-- Usuario: `lexons`
-- Contraseña: `12345`
+- User: `lexons` / Password: `12345`
+- User: `luis` / Password: `12345`
+- User: `adriana` / Password: `123`
 
-- Usuario: `luis`
-- Contraseña: `12345`
-
-- Usuario: `adriana`
-- Contraseña: `123`
-
-## Correr las pruebas
+## Running the Tests
 
 pytest tests/
 
-## estructura del proyecto
+## Project Structure
 ```
 petscop/
 ├── myblog/
