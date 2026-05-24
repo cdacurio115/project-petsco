@@ -6,9 +6,12 @@
 
 ## 2. My Approach
 
-I did not ask Claude to generate the entire project. Instead, I first built the page step by step as if it were a simple blog, with the help of some tutorials. This "skeleton" already included features like login, logout, user registration, storage tables for both users and data, post editing and deletion, and login-based restrictions.
-During that process I used Claude a few times to fix errors that came up, though most of them were caused by missing symbols or inconsistent capitalization in variable names.
-Where Claude was truly helpful was when adding new features to the page, such as the ability to upload images, better post visualization, and other small details.
+I didn't ask Claude to generate the entire project. Instead, I first built the site step by step, like a simple blog, with the help of some tutorials. This "skeleton" already included features like login and logout, user registration, storage tables for users and data, post editing and deletion, and access restrictions.
+
+During that process, I used Claude several times to correct errors, although most were due to missing symbols or inconsistent capitalization in variable names.
+
+Where Claude was truly useful was in adding new features to the site, such as the ability to upload images, improved post display, and other details.
+Finally, I also used it to experiment and change the site's visual design until I found and modified one I liked.
 
 ## 3. Key Prompts
 
