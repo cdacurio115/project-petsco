@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for("static", filename="img/adoption.ico" ) }}" type="image/x-icon">
+    
+    <title>{% block tittle %}{% endblock %}-Myblog</title>
+
+    <link rel="stylesheet" href="{{ url_for("static", filename="css/styles.css" ) }}">
+</head>
+<body>
+    <header class = "header">
+        <div class = "nav">
+            <div>
+            <a href="{{ url_for("blog.index") }}">
+                 <h1>MyBlog</h1>
+            </a>
+         </div>
+         <nav>
+            {% if g.user %}
+            <img src="{{ url_for("static", filename="img/username.png" ) }}" alt="">
+            <span>{{ g.user.username }}</span>
+            <a href="{{ url_for("user.logout") }}">Cerrar Sesion</a>
+
+            {% else %}
+            <a href="{{ url_for("user.register") }}">Registrar Usuario</a>
+            <a href="{{ url_for("user.login") }}">Iniciar Sesion</a>
+            {% endif %}
+         </nav>
+
+        </div>
+        
+    </header>
+
+    
+    <section>
+        <div class = "content">
+            <header>{% block header %}{% endblock %}</header>
+
+        {% for message in get_flashed_messages() %}
+        <div class ="flash">{{ message }}</div>
+        {% endfor %}
+
+
+        {% block content %}{% endblock %}
+
+        </div>
+        
+    </section>
+</body>
+</html>
