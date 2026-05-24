@@ -79,6 +79,7 @@ La app estará disponible en http://127.0.0.1:5000
 pytest tests/
 
 ## estructura del proyecto
+```
 petscop/
 ├── myblog/
 │   ├── models/
@@ -101,3 +102,4 @@ petscop/
 ├── main.py
 ├── requirements.txt
 └── .env
+```
