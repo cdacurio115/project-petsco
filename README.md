@@ -1,6 +1,19 @@
 # Petscop 🐾
 
-Petscop es una aplicación web para una fundación de adopción de mascotas. Permite a los usuarios explorar publicaciones de mascotas disponibles para adopción, registrarse, iniciar sesión y crear sus propias publicaciones.
+Petscop es una aplicación web para una fundación de adopción de mascotas. Permite a los usuarios explorar publicaciones de mascotas disponibles para adopción, registrarse, iniciar sesión, crear publicaciones y marcar mascotas para adopción.
+
+## Funcionalidades
+
+- Registro e inicio de sesión de usuarios
+- Crear, editar y eliminar publicaciones de mascotas
+- Subir imágenes a las publicaciones
+- Ver publicaciones de forma individual
+- Buscar mascotas por título o contenido
+- Paginación de publicaciones
+- Sistema de check para marcar mascotas en proceso de adopción
+- Apartado de adopciones en proceso (solo usuarios registrados)
+- Health check endpoint (`GET /health`)
+- UI responsiva para móvil y escritorio
 
 ## Tecnologías usadas
 
@@ -10,6 +23,7 @@ Petscop es una aplicación web para una fundación de adopción de mascotas. Per
 - MySQL Server 8.0
 - PyMySQL
 - Werkzeug
+- python-dotenv
 
 ## Requisitos previos
 
@@ -34,17 +48,17 @@ pip install -r requirements.txt
 CREATE DATABASE blog_db;
 ```
 
-5. Las credenciales por defecto en `config.py` son:
+5. Crea un archivo `.env` en la raíz del proyecto con las siguientes variables:
+
+DATABASE_URL=mysql+pymysql://root:root@localhost:3306/blog_db
+SECRET_KEY=dev
+
+6. Las credenciales por defecto de MySQL son:
 - Usuario: `root`
 - Contraseña: `root`
 - Puerto: `3306`
 
-Si tu configuración es diferente, actualiza esta línea en `config.py`:
-```python
-SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:root@localhost:3306/blog_db"
-```
-
-6. Corre la aplicación:
+7. Corre la aplicación:
 py main.py
 
 La app estará disponible en http://127.0.0.1:5000
@@ -54,22 +68,36 @@ La app estará disponible en http://127.0.0.1:5000
 - Usuario: `lexons`
 - Contraseña: `12345`
 
+- Usuario: `luis`
+- Contraseña: `12345`
+
+- Usuario: `adriana`
+- Contraseña: `123`
+
 ## Correr las pruebas
 
 pytest tests/
 
-## Estructura del proyecto
+## estructura del proyecto
 petscop/
 ├── myblog/
 │   ├── models/
 │   │   ├── user.py
-│   │   └── post.py
+│   │   ├── post.py
+│   │   └── adopcion.py
 │   ├── views/
 │   │   ├── user.py
 │   │   └── blog.py
 │   ├── templates/
+│   │   ├── autentic/
+│   │   └── blog/
 │   └── static/
+│       ├── css/
+│       ├── img/
+│       └── uploads/
+├── tests/
+│   └── test_app.py
 ├── config.py
 ├── main.py
-└── requirements.txt
-
+├── requirements.txt
+└── .env
