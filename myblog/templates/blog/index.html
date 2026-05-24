@@ -8,7 +8,17 @@
 
 {% block content %}
 
-{% for post in posts %}
+<!-- Barra de busqueda y mensaje por si no aparece -->
+<form method="GET" action="/">
+    <input type="text" name="search" placeholder="Buscar mascota..." value="{{ request.args.get('search', '') }}">
+    <button type="submit">Buscar</button>
+</form>
+{% if not posts %}
+    <p>No se encontraron mascotas con "{{ request.args.get('search', '') }}".</p>
+{% endif %}
+
+<!-- quien y cuando publico el post -->
+{% for post in posts.items %}
     <article>
         <header>
             <div>
@@ -28,10 +38,26 @@
         </header>
         <div>
             <p>{{post.body}}</p>
+            {% if post.image %}
+                <img src="{{ url_for('static', filename='uploads/' + post.image) }}" alt="{{ post.title }}" width="300">
+            {% endif %}
         </div>
-</article>
+    </article>
 
 
 {% endfor %}
 
+<div>
+    {% if posts.has_prev %}
+        <a href="{{ url_for('blog.index', page=posts.prev_num, search=request.args.get('search', '')) }}">Anterior</a>
+    {% endif %}
+    
+    <span>Página {{ posts.page }} de {{ posts.pages }}</span>
+    
+    {% if posts.has_next %}
+        <a href="{{ url_for('blog.index', page=posts.next_num, search=request.args.get('search', '')) }}">Siguiente</a>
+    {% endif %}
+</div>
+
 {% endblock %}
+

@@ -4,11 +4,13 @@
 {%endblock%}
 
 {% block content %}
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         <label for="title">titulo</label>
         <input type="text" name="title" id="title" required>
         <label for="body">Contenido</label>
         <textarea name="body" id="body"></textarea>
-        <input type="submit", value="Guardar">
+        <label for="image">Imagen (opcional)</label>
+        <input type="file" name="image" id="image" accept=".png,.jpg,.jpeg,.gif">
+        <input type="submit" value="Guardar">
     </form>
 {% endblock %}

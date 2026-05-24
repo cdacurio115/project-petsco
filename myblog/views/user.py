@@ -32,6 +32,7 @@ def register():
         else:
             error = f"El usuario {username} ya esta registrado"
         flash(error)
+        return render_template("autentic/register.html"), 409
 
     return render_template("autentic/register.html")
 
@@ -41,30 +42,26 @@ def register():
 #Iniciar sesion un usuario
 @user.route("/login", methods= ("GET", "POST"))
 def login():
-
     if request.method == "POST":
-        username =request.form.get("username")
-        password =request.form.get("password")
-        
+        username = request.form.get("username")
+        password = request.form.get("password")
 
         error = None
-        
-        
-        user = User.query.filter_by(username = username).first()
 
-        if  user is None:
+        user = User.query.filter_by(username=username).first()
+
+        if user is None:
             error = "El usuario no existe"
         elif not check_password_hash(user.password, password):
             error = "La contraseña es incorrecta"
 
-        if error == None:
+        if error is None:
             session.clear()
             session["user_id"] = user.id
-            
             return redirect(url_for("blog.index"))
-            db.session.commit()
-        
+
         flash(error)
+        return render_template("autentic/login.html"), 401
 
     return render_template("autentic/login.html")
 
