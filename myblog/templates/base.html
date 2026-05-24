@@ -21,6 +21,7 @@
             {% if g.user %}
             <img src="{{ url_for("static", filename="img/username.png" ) }}" alt="">
             <span>{{ g.user.username }}</span>
+            <a href="{{ url_for('blog.adopciones') }}">Adopciones en Proceso</a>
             <a href="{{ url_for("user.logout") }}">Cerrar Sesion</a>
 
             {% else %}

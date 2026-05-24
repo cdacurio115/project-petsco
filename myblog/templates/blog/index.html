@@ -22,7 +22,7 @@
     <article>
         <header>
             <div>
-                <h1>{{post.title}}</h1>
+                <h1><a href="{{ url_for('blog.detail', id=post.id) }}">{{post.title}}</a></h1>
                     <div class ="about">
                         publicado por {{ get_user(post.autor).username }}
                         el {{ post.created.strftime("%y-%m-%d") }}

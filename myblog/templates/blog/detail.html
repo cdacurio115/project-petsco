@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block header %}
+    <h2>{% block title %} {{ post.title }} {% endblock %}</h2>
+{% endblock %}
+
+{% block content %}
+<article>
+    <div class="about">
+        publicado por {{ author.username }}
+        el {{ post.created.strftime("%y-%m-%d") }}
+    </div>
+
+    {% if post.image %}
+        <img src="{{ url_for('static', filename='uploads/' + post.image) }}" alt="{{ post.title }}" width="400">
+    {% endif %}
+
+    <div>
+        <p>{{ post.body }}</p>
+    </div>
+
+    {% if g.user %}
+        {% if adopcion is none %}
+            <form method="POST" action="{{ url_for('blog.adoptar', id=post.id) }}">
+                <button type="submit">Marcar para adopción ✓</button>
+            </form>
+        {% elif adopcion.user_id == g.user.id %}
+            <form method="POST" action="{{ url_for('blog.adoptar', id=post.id) }}">
+                <button type="submit">Quitar marca ✗</button>
+            </form>
+        {% else %}
+            <p>Este perro ya está en proceso de adopción.</p>
+        {% endif %}
+    {% else %}
+        <p>Inicia sesión para marcar este post para adopción.</p>
+    {% endif %}
+
+</article>
+{% endblock %}

@@ -124,3 +124,46 @@ def delete(id):
 @blog.route("/health")
 def health():
     return {"status": "ok"}
+
+
+#visualizar post de forma individual
+@blog.route("/blog/<int:id>")
+def detail(id):
+    from myblog.models.adopcion import Adopcion
+    post = db.session.get(Post, id)
+    if post is None:
+        abort(404)
+    author = get_user(post.autor)
+    adopcion = Adopcion.query.filter_by(post_id=id).first()
+    return render_template("blog/detail.html", post=post, author=author, adopcion=adopcion)
+
+
+#marcar o desmarcar el check de adopcion
+@blog.route("/blog/<int:id>/adoptar", methods=("POST",))
+@login_required
+def adoptar(id):
+    from myblog.models.adopcion import Adopcion
+    post = db.session.get(Post, id)
+    if post is None:
+        abort(404)
+
+    adopcion = Adopcion.query.filter_by(post_id=id).first()
+
+    if adopcion is None:
+        nueva = Adopcion(post_id=id, user_id=g.user.id)
+        db.session.add(nueva)
+        db.session.commit()
+    elif adopcion.user_id == g.user.id:
+        db.session.delete(adopcion)
+        db.session.commit()
+
+    return redirect(url_for("blog.detail", id=id))
+
+
+#adopciones en proceso
+@blog.route("/adopciones")
+@login_required
+def adopciones():
+    from myblog.models.adopcion import Adopcion
+    adopciones = Adopcion.query.all()
+    return render_template("blog/adopciones.html", adopciones=adopciones, get_user=get_user)

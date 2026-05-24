@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block header %}
+    <h2>{% block title %} Adopciones en Proceso {% endblock %}</h2>
+{% endblock %}
+
+{% block content %}
+
+{% if adopciones %}
+    {% for adopcion in adopciones %}
+        <article>
+            <h1><a href="{{ url_for('blog.detail', id=adopcion.post.id) }}">{{ adopcion.post.title }}</a></h1>
+            <p>Interesado: {{ get_user(adopcion.user_id).username }}</p>
+        </article>
+    {% endfor %}
+{% else %}
+    <p>No hay adopciones en proceso actualmente.</p>
+{% endif %}
+
+{% endblock %}
