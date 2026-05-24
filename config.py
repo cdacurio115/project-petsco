@@ -1,17 +1,17 @@
-class config:
-    DEBUG = True
-    TESTING = True
+import os
+from dotenv import load_dotenv
 
-    #configuracion de base de datos
-    SQLALCHEMY_TRACK_MODIFICATION = False
-    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:root@localhost:3306/blog_db"
+load_dotenv()
+
+class config:
+    TESTING = True
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 class productionconfig(config):
     debug = False
 
 class developmentconfig(config):
-    SECRET_KEY = "dev"
+    SECRET_KEY = os.getenv("SECRET_KEY")
     DEBUG = True
     TESTING = True
-
-    
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
