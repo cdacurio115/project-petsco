@@ -25,7 +25,7 @@ def get_user(id):
     result = db.session.get(User, id)
     return result
 
-
+#division por paginas
 @blog.route("/")
 def index():
     search = request.args.get("search", "")

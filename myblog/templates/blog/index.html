@@ -1,63 +1,95 @@
 {% extends "base.html" %}
-{% block header %}
-    <h2>{%block tittle%} Publicaciones {% endblock %}</h2>
-    {%if g.user %}
-        <a href="{{ url_for("blog.create") }}">Crear nuevo post</a>
-    {% endif %}
-{%endblock%}
+{% block tittle %}Mascotas{% endblock %}
 
 {% block content %}
 
-<!-- Barra de busqueda y mensaje por si no aparece -->
-<form method="GET" action="/">
-    <input type="text" name="search" placeholder="Buscar mascota..." value="{{ request.args.get('search', '') }}">
-    <button type="submit">Buscar</button>
-</form>
-{% if not posts %}
-    <p>No se encontraron mascotas con "{{ request.args.get('search', '') }}".</p>
-{% endif %}
+<!-- BARRA DE BÚSQUEDA -->
+<section class="search-section">
+    <form method="GET" action="/" class="search-form">
+        <span class="search-icon">🔍</span>
+        <input
+            type="text"
+            name="search"
+            placeholder="Busca una mascota por nombre o descripción..."
+            value="{{ request.args.get('search', '') }}"
+            class="search-input"
+        >
+        <button type="submit" class="btn btn-solid">Buscar</button>
+    </form>
+</section>
 
-<!-- quien y cuando publico el post -->
-{% for post in posts.items %}
-    <article>
-        <header>
-            <div>
-                <h1><a href="{{ url_for('blog.detail', id=post.id) }}">{{post.title}}</a></h1>
-                    <div class ="about">
-                        publicado por {{ get_user(post.autor).username }}
-                        el {{ post.created.strftime("%y-%m-%d") }}
-                    </div>
-            </div>
-            <div>
-                {% if g.user.id == post.autor %}
-                <a href="{{ url_for("blog.update", id = post.id ) }}">Editar</a>
-                <a href="{{ url_for("blog.delete", id = post.id ) }}">Eliminar</a>
+<!-- TÍTULO + BOTÓN CREAR -->
+<section class="listings">
+    <div class="listings-header">
+        <h2 class="section-title">Mascotas disponibles para adopción</h2>
+        {% if g.user %}
+            <a href="{{ url_for('blog.create') }}" class="btn btn-solid">+ Nuevo post</a>
+        {% endif %}
+    </div>
 
+    <!-- SIN RESULTADOS -->
+    {% if not posts.items %}
+        <p class="empty-state">No se encontraron mascotas con "<strong>{{ request.args.get('search', '') }}</strong>".</p>
+    {% endif %}
+
+    <!-- CARDS -->
+    <div class="cards-grid">
+    {% for post in posts.items %}
+        <article class="pet-card">
+
+            <a href="{{ url_for('blog.detail', id=post.id) }}" class="card-img-link">
+                {% if post.image %}
+                    <img src="{{ url_for('static', filename='uploads/' + post.image) }}" alt="{{ post.title }}" class="card-img">
+                {% else %}
+                    <div class="card-img-placeholder">🐾</div>
                 {% endif %}
+            </a>
+
+            <div class="card-body">
+                <h3 class="card-title">
+                    <a href="{{ url_for('blog.detail', id=post.id) }}">{{ post.title }}</a>
+                </h3>
+                <p class="card-meta">
+                    👤 {{ get_user(post.autor).username }}
+                    · {{ post.created.strftime("%d %b %Y") }}
+                </p>
+                <p class="card-text">{{ post.body | truncate(110) }}</p>
+
+                <div class="card-footer">
+                    <span class="badge">🐾 Mascota</span>
+                    {% if g.user and g.user.id == post.autor %}
+                        <div class="card-actions">
+                            <a href="{{ url_for('blog.update', id=post.id) }}" class="action-link">Editar</a>
+                            <a href="{{ url_for('blog.delete', id=post.id) }}" class="action-link danger">Eliminar</a>
+                        </div>
+                    {% endif %}
+                </div>
             </div>
-        </header>
-        <div>
-            <p>{{post.body}}</p>
-            {% if post.image %}
-                <img src="{{ url_for('static', filename='uploads/' + post.image) }}" alt="{{ post.title }}" width="300">
+
+        </article>
+    {% endfor %}
+    </div>
+
+    <!-- PAGINACIÓN -->
+    <div class="pagination">
+        {% if posts.has_prev %}
+            <a href="{{ url_for('blog.index', page=posts.prev_num, search=request.args.get('search', '')) }}" class="page-dot">←</a>
+        {% endif %}
+
+        {% for p in posts.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+            {% if p %}
+                <a href="{{ url_for('blog.index', page=p, search=request.args.get('search', '')) }}"
+                   class="page-dot {% if p == posts.page %}current{% endif %}">{{ p }}</a>
+            {% else %}
+                <span class="page-dot ellipsis">…</span>
             {% endif %}
-        </div>
-    </article>
+        {% endfor %}
 
+        {% if posts.has_next %}
+            <a href="{{ url_for('blog.index', page=posts.next_num, search=request.args.get('search', '')) }}" class="page-dot">→</a>
+        {% endif %}
+    </div>
 
-{% endfor %}
-
-<div>
-    {% if posts.has_prev %}
-        <a href="{{ url_for('blog.index', page=posts.prev_num, search=request.args.get('search', '')) }}">Anterior</a>
-    {% endif %}
-    
-    <span>Página {{ posts.page }} de {{ posts.pages }}</span>
-    
-    {% if posts.has_next %}
-        <a href="{{ url_for('blog.index', page=posts.next_num, search=request.args.get('search', '')) }}">Siguiente</a>
-    {% endif %}
-</div>
+</section>
 
 {% endblock %}
-

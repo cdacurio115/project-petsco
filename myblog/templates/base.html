@@ -3,51 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="{{ url_for("static", filename="img/adoption.ico" ) }}" type="image/x-icon">
-    
-    <title>{% block tittle %}{% endblock %}-Myblog</title>
-
-    <link rel="stylesheet" href="{{ url_for("static", filename="css/styles.css" ) }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/adoption.ico') }}" type="image/x-icon">
+    <title>{% block tittle %}{% endblock %} — Petsco</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <header class = "header">
-        <div class = "nav">
-            <div>
-            <a href="{{ url_for("blog.index") }}">
-                 <h1>MyBlog</h1>
+
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="{{ url_for('blog.index') }}" class="brand">
+                <span class="brand-icon">🐾</span>
+                <span class="brand-name">Petsco</span>
             </a>
-         </div>
-         <nav>
-            {% if g.user %}
-            <img src="{{ url_for("static", filename="img/username.png" ) }}" alt="">
-            <span>{{ g.user.username }}</span>
-            <a href="{{ url_for('blog.adopciones') }}">Adopciones en Proceso</a>
-            <a href="{{ url_for("user.logout") }}">Cerrar Sesion</a>
-
-            {% else %}
-            <a href="{{ url_for("user.register") }}">Registrar Usuario</a>
-            <a href="{{ url_for("user.login") }}">Iniciar Sesion</a>
-            {% endif %}
-         </nav>
-
+            <nav class="header-nav">
+                {% if g.user %}
+                    <div class="user-chip">
+                        <img src="{{ url_for('static', filename='img/username.png') }}" alt="" class="user-avatar">
+                        <span>{{ g.user.username }}</span>
+                    </div>
+                    <a href="{{ url_for('blog.adopciones') }}" class="nav-link">Adopciones en Proceso</a>
+                    <a href="{{ url_for('user.logout') }}" class="btn btn-outline">Cerrar Sesión</a>
+                {% else %}
+                    <a href="{{ url_for('user.register') }}" class="btn btn-outline">Registrar usuario</a>
+                    <a href="{{ url_for('user.login') }}" class="btn btn-solid">Iniciar sesión</a>
+                {% endif %}
+            </nav>
         </div>
-        
     </header>
 
-    
-    <section>
-        <div class = "content">
-            <header>{% block header %}{% endblock %}</header>
+    {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+    {% endfor %}
 
-        {% for message in get_flashed_messages() %}
-        <div class ="flash">{{ message }}</div>
-        {% endfor %}
-
-
+    <main class="main-content">
         {% block content %}{% endblock %}
+    </main>
 
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-col">
+                <p class="footer-brand">🐾 Petsco</p>
+                <p class="footer-tagline">Fundación de adopción de mascotas.<br>Conectamos animales con familias amorosas desde 2018.</p>
+            </div>
+            <div class="footer-col">
+                <h4 class="footer-heading">Contacto</h4>
+                <ul class="footer-list">
+                    <li>✉ contacto@petsco.org</li>
+                    <li>📞 (+57) 311 000 0000</li>
+                    <li>🕐 Lun–Vie: 8am – 6pm</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 class="footer-heading">Dirección</h4>
+                <ul class="footer-list">
+                    <li>Calle 72 #45-10</li>
+                    <li>Barranquilla, Colombia</li>
+                </ul>
+            </div>
         </div>
-        
-    </section>
+        <div class="footer-bottom">
+            <p>© 2026 Petsco · Todos los derechos reservados</p>
+        </div>
+    </footer>
+
 </body>
 </html>

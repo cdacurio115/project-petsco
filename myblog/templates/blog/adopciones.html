@@ -1,19 +1,46 @@
 {% extends "base.html" %}
-{% block header %}
-    <h2>{% block title %} Adopciones en Proceso {% endblock %}</h2>
-{% endblock %}
+{% block tittle %}Adopciones en Proceso{% endblock %}
 
 {% block content %}
 
-{% if adopciones %}
-    {% for adopcion in adopciones %}
-        <article>
-            <h1><a href="{{ url_for('blog.detail', id=adopcion.post.id) }}">{{ adopcion.post.title }}</a></h1>
-            <p>Interesado: {{ get_user(adopcion.user_id).username }}</p>
+<div class="listings">
+    <div class="listings-header">
+        <h2 class="section-title">Adopciones en Proceso</h2>
+    </div>
+
+    {% if adopciones %}
+    <div class="cards-grid">
+        {% for adopcion in adopciones %}
+        <article class="pet-card">
+
+            <a href="{{ url_for('blog.detail', id=adopcion.post.id) }}" class="card-img-link">
+                {% if adopcion.post.image %}
+                    <img src="{{ url_for('static', filename='uploads/' + adopcion.post.image) }}" alt="{{ adopcion.post.title }}" class="card-img">
+                {% else %}
+                    <div class="card-img-placeholder">🐾</div>
+                {% endif %}
+            </a>
+
+            <div class="card-body">
+                <h3 class="card-title">
+                    <a href="{{ url_for('blog.detail', id=adopcion.post.id) }}">{{ adopcion.post.title }}</a>
+                </h3>
+                <p class="card-meta">
+                     Interesado: <strong>{{ get_user(adopcion.user_id).username }}</strong>
+                </p>
+            </div>
+
         </article>
-    {% endfor %}
-{% else %}
-    <p>No hay adopciones en proceso actualmente.</p>
-{% endif %}
+        {% endfor %}
+    </div>
+
+    {% else %}
+    <div class="empty-state">
+        <p class="empty-icon">🐾</p>
+        <p>No hay adopciones en proceso actualmente.</p>
+    </div>
+    {% endif %}
+
+</div>
 
 {% endblock %}

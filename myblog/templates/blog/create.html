@@ -1,16 +1,52 @@
 {% extends "base.html" %}
-{% block header %}
-    <h2>{%block title%} Crear una publicación {% endblock %}</h2>
-{%endblock%}
+{% block tittle %}Crear publicación{% endblock %}
 
 {% block content %}
-    <form method="POST" enctype="multipart/form-data">
-        <label for="title">titulo</label>
-        <input type="text" name="title" id="title" required>
-        <label for="body">Contenido</label>
-        <textarea name="body" id="body"></textarea>
-        <label for="image">Imagen (opcional)</label>
-        <input type="file" name="image" id="image" accept=".png,.jpg,.jpeg,.gif">
-        <input type="submit" value="Guardar">
+
+<div class="form-wrapper form-wide">
+    <h2 class="form-title">Crear una publicación</h2>
+
+    <form method="POST" enctype="multipart/form-data" class="auth-form">
+
+        <div class="form-group">
+            <label for="title">Título</label>
+            <input type="text" name="title" id="title" required placeholder="Nombre de la mascota y raza...">
+        </div>
+
+        <div class="form-group">
+            <label>Imagen (opcional)</label>
+            <div class="img-preview-box" id="preview-box">
+                <span class="img-preview-placeholder">📷 Imagen que se previsualizará aquí</span>
+                <img id="preview-img" src="" alt="" style="display:none;">
+            </div>
+            <input type="file" name="image" id="image" accept=".png,.jpg,.jpeg,.gif" class="file-input">
+            <label for="image" class="btn btn-outline-dark">📁 Seleccionar imagen</label>
+        </div>
+
+        <div class="form-group">
+            <label for="body">Contenido</label>
+            <textarea name="body" id="body" rows="4" placeholder="Describe la mascota..."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-solid btn-full">Guardar publicación</button>
+
     </form>
+</div>
+
+<script>
+    document.getElementById('image').addEventListener('change', function() {
+        const file = this.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = document.getElementById('preview-img');
+            const placeholder = document.querySelector('.img-preview-placeholder');
+            img.src = e.target.result;
+            img.style.display = 'block';
+            placeholder.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+    });
+</script>
+
 {% endblock %}
